@@ -1,115 +1,175 @@
-let todos = [];
-
-// Load todos when page loads
-window.onload = function() {
-    loadTodos();
-};
-
-// Load todos from server
-function loadTodos() {
-    fetch('/api/todos')
-        .then(response => response.json())
-        .then(data => {
-            todos = data;
-            displayTodos();
-        })
-        .catch(error => {
+class TodoApp {
+    constructor() {
+        this.todoInput = document.getElementById('todoInput');
+        this.addBtn = document.getElementById('addBtn');
+        this.todoList = document.getElementById('todoList');
+        
+        this.init();
+    }
+    
+    init() {
+        this.addBtn.addEventListener('click', () => this.addTodo());
+        this.todoInput.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') {
+                this.addTodo();
+            }
+        });
+        
+        this.loadTodos();
+    }
+    
+    async loadTodos() {
+        try {
+            this.showLoading();
+            const response = await fetch('/api/todos');
+            const todos = await response.json();
+            this.renderTodos(todos);
+        } catch (error) {
             console.error('Error loading todos:', error);
-        });
-}
-
-// Display todos on the page
-function displayTodos() {
-    const todoList = document.getElementById('todoList');
-    todoList.innerHTML = '';
-    
-    todos.forEach(todo => {
-        const li = document.createElement('li');
-        li.className = 'todo-item';
-        if (todo.completed) {
-            li.classList.add('completed');
+            this.showError('Failed to load todos');
         }
-        
-        li.innerHTML = `
-            <input type="checkbox" ${todo.completed ? 'checked' : ''} 
-                   onchange="toggleTodo(${todo.id})">
-            <span class="todo-text">${todo.text}</span>
-            <button class="delete-btn" onclick="deleteTodo(${todo.id})">Delete</button>
-        `;
-        
-        todoList.appendChild(li);
-    });
-}
-
-// Add new todo
-function addTodo() {
-    const input = document.getElementById('todoInput');
-    const text = input.value.trim();
-    
-    if (text === '') {
-        alert('Please enter a todo!');
-        return;
     }
     
-    fetch('/api/todos', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ text: text })
-    })
-    .then(response => response.json())
-    .then(newTodo => {
-        todos.push(newTodo);
-        displayTodos();
-        input.value = '';
-    })
-    .catch(error => {
-        console.error('Error adding todo:', error);
-        alert('Error adding todo!');
-    });
-}
-
-// Toggle todo completion
-function toggleTodo(id) {
-    fetch(`/api/todos/${id}`, {
-        method: 'PUT'
-    })
-    .then(response => response.json())
-    .then(updatedTodo => {
-        const index = todos.findIndex(t => t.id === id);
-        if (index !== -1) {
-            todos[index] = updatedTodo;
-            displayTodos();
+    async addTodo() {
+        const title = this.todoInput.value.trim();
+        if (!title) return;
+        
+        try {
+            const response = await fetch('/api/todos', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ title })
+            });
+            
+            if (response.ok) {
+                this.todoInput.value = '';
+                this.loadTodos();
+            } else {
+                throw new Error('Failed to add todo');
+            }
+        } catch (error) {
+            console.error('Error adding todo:', error);
+            this.showError('Failed to add todo');
         }
-    })
-    .catch(error => {
-        console.error('Error updating todo:', error);
-        alert('Error updating todo!');
-    });
-}
-
-// Delete todo
-function deleteTodo(id) {
-    if (confirm('Are you sure you want to delete this todo?')) {
-        fetch(`/api/todos/${id}`, {
-            method: 'DELETE'
-        })
-        .then(response => response.json())
-        .then(() => {
-            todos = todos.filter(t => t.id !== id);
-            displayTodos();
-        })
-        .catch(error => {
+    }
+    
+    async toggleTodo(id, completed) {
+        try {
+            const response = await fetch(`/api/todos/${id}`, {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ completed })
+            });
+            
+            if (response.ok) {
+                this.loadTodos();
+            } else {
+                throw new Error('Failed to update todo');
+            }
+        } catch (error) {
+            console.error('Error updating todo:', error);
+            this.showError('Failed to update todo');
+        }
+    }
+    
+    async deleteTodo(id) {
+        if (!confirm('Are you sure you want to delete this todo?')) return;
+        
+        try {
+            const response = await fetch(`/api/todos/${id}`, {
+                method: 'DELETE'
+            });
+            
+            if (response.ok) {
+                this.loadTodos();
+            } else {
+                throw new Error('Failed to delete todo');
+            }
+        } catch (error) {
             console.error('Error deleting todo:', error);
-            alert('Error deleting todo!');
+            this.showError('Failed to delete todo');
+        }
+    }
+    
+    async editTodo(id, currentTitle) {
+        const newTitle = prompt('Edit todo:', currentTitle);
+        if (!newTitle || newTitle === currentTitle) return;
+        
+        try {
+            const response = await fetch(`/api/todos/${id}`, {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ title: newTitle })
+            });
+            
+            if (response.ok) {
+                this.loadTodos();
+            } else {
+                throw new Error('Failed to edit todo');
+            }
+        } catch (error) {
+            console.error('Error editing todo:', error);
+            this.showError('Failed to edit todo');
+        }
+    }
+    
+    renderTodos(todos) {
+        this.todoList.innerHTML = '';
+        
+        if (todos.length === 0) {
+            this.todoList.innerHTML = '<li class="loading">No todos yet. Add one above!</li>';
+            return;
+        }
+        
+        todos.forEach(todo => {
+            const li = document.createElement('li');
+            li.className = `todo-item ${todo.completed ? 'completed' : ''}`;
+            
+            li.innerHTML = `
+                <input type="checkbox" class="todo-checkbox" ${todo.completed ? 'checked' : ''}>
+                <span class="todo-text">${todo.title}</span>
+                <div class="todo-actions">
+                    <button class="edit-btn">Edit</button>
+                    <button class="delete-btn">Delete</button>
+                </div>
+            `;
+            
+            const checkbox = li.querySelector('.todo-checkbox');
+            const editBtn = li.querySelector('.edit-btn');
+            const deleteBtn = li.querySelector('.delete-btn');
+            
+            checkbox.addEventListener('change', () => {
+                this.toggleTodo(todo._id, checkbox.checked);
+            });
+            
+            editBtn.addEventListener('click', () => {
+                this.editTodo(todo._id, todo.title);
+            });
+            
+            deleteBtn.addEventListener('click', () => {
+                this.deleteTodo(todo._id);
+            });
+            
+            this.todoList.appendChild(li);
         });
+    }
+    
+    showLoading() {
+        this.todoList.innerHTML = '<li class="loading">Loading todos...</li>';
+    }
+    
+    showError(message) {
+        this.todoList.innerHTML = `<li class="loading" style="color: #e74c3c;">${message}</li>`;
     }
 }
 
-// Allow adding todo with Enter key
-document.getElementById('todoInput').addEventListener('keypress', function(e) {
-    if (e.key === 'Enter') {
-        addTodo();
-    }
+// Initialize the app when DOM is loaded
+document.addEventListener('DOMContentLoaded', () => {
+    new TodoApp();
 });

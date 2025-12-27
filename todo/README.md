@@ -1,34 +1,66 @@
 # Simple Todo App
 
-A basic todo application built with Node.js and Express.
+A simple todo application built with Node.js, Express, and MongoDB using Mongoose.
 
 ## Features
 
 - Add new todos
 - Mark todos as completed
+- Edit existing todos
 - Delete todos
-- Simple and clean interface
+- Responsive web interface
 
-## How to run
+## Prerequisites
 
-1. Install dependencies:
+- Node.js (v14 or higher)
+- MongoDB (running locally or MongoDB Atlas)
+
+## Installation
+
+1. Navigate to the project directory:
+   ```bash
+   cd todos
    ```
+
+2. Install dependencies:
+   ```bash
    npm install
    ```
 
-2. Start the server:
-   ```
+3. Make sure MongoDB is running locally, or update the `MONGODB_URI` in `.env` file for a remote database.
+
+4. Start the application:
+   ```bash
    npm start
    ```
+   
+   For development with auto-restart:
+   ```bash
+   npm run dev
+   ```
 
-3. Open your browser and go to `http://localhost:3000`
+5. Open your browser and go to `http://localhost:3000`
 
-## Files
+## API Endpoints
 
-- `app.js` - Main server file
-- `public/index.html` - Main HTML page
-- `public/style.css` - Styling
-- `public/script.js` - Frontend JavaScript
-- `package.json` - Project dependencies
+- `GET /api/todos` - Get all todos
+- `POST /api/todos` - Create a new todo
+- `PUT /api/todos/:id` - Update a todo
+- `DELETE /api/todos/:id` - Delete a todo
 
-The app stores todos in memory, so they will be lost when you restart the server.
+## Project Structure
+
+```
+todos/
+├── models/
+│   └── Todo.js          # MongoDB schema
+├── routes/
+│   └── todos.js         # API routes
+├── public/
+│   ├── index.html       # Frontend HTML
+│   ├── script.js        # Frontend JavaScript
+│   └── style.css        # Frontend CSS
+├── server.js            # Main server file
+├── package.json         # Dependencies
+└── .env                 # Environment variables
+```

@@ -8,14 +8,16 @@
 </head>
 <body>
     <div class="container">
-        <h1>My Todo List</h1>
+        <h1>Todo App</h1>
         
-        <div class="add-todo">
-            <input type="text" id="todoInput" placeholder="Add a new todo...">
-            <button onclick="addTodo()">Add</button>
+        <div class="todo-form">
+            <input type="text" id="todoInput" placeholder="Add a new todo..." />
+            <button id="addBtn">Add Todo</button>
         </div>
         
-        <ul id="todoList"></ul>
+        <div class="todo-list">
+            <ul id="todoList"></ul>
+        </div>
     </div>
     
     <script src="script.js"></script>
