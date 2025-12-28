@@ -1,0 +1,35 @@
+{
+  "name": "blogging-platform",
+  "version": "1.0.0",
+  "description": "A web-based blogging platform with admin panel and user interface",
+  "main": "server.js",
+  "type": "module",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "nodemon server.js",
+    "build": "cd frontend && npm run build && cd .. && cp -r frontend/dist/* public/",
+    "build-win": "cd frontend && npm run build && cd .. && xcopy /E /I frontend\\dist\\* public\\",
+    "setup": "npm install && cd frontend && npm install",
+    "init-admin": "node init-admin.js",
+    "seed": "node seed-data.js"
+  },
+  "keywords": [
+    "blog",
+    "nodejs",
+    "express",
+    "mongodb"
+  ],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "bcryptjs": "^3.0.3",
+    "cors": "^2.8.5",
+    "dotenv": "^17.2.3",
+    "express": "^5.2.1",
+    "jsonwebtoken": "^9.0.3",
+    "mongoose": "^9.0.2"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.11"
+  }
+}
