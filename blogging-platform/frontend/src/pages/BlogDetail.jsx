@@ -36,8 +36,8 @@ const BlogDetail = () => {
     return (
       <div>
         <Header />
-        <div className="min-h-screen flex items-center justify-center">
-          <div className="text-lg">Loading...</div>
+        <div className="loading">
+          <div>Loading...</div>
         </div>
       </div>
     );
@@ -47,13 +47,13 @@ const BlogDetail = () => {
     return (
       <div>
         <Header />
-        <div className="min-h-screen flex items-center justify-center">
-          <div className="text-center">
-            <h1 className="text-2xl font-bold text-gray-900 mb-4">Blog Not Found</h1>
-            <Link to="/" className="text-blue-600 hover:text-blue-800">
-              ← Back to Home
-            </Link>
-          </div>
+        <div className="container" style={{ textAlign: 'center', padding: '4rem 0' }}>
+          <h1 style={{ fontSize: '2rem', fontWeight: 'bold', marginBottom: '1rem' }}>
+            Blog Not Found
+          </h1>
+          <Link to="/" className="btn btn-primary">
+            ← Back to Home
+          </Link>
         </div>
       </div>
     );
@@ -63,36 +63,36 @@ const BlogDetail = () => {
     <div>
       <Header />
       
-      <main className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        <Link to="/" className="text-blue-600 hover:text-blue-800 mb-8 inline-block">
+      <main className="container">
+        <Link to="/" className="btn btn-secondary" style={{ marginBottom: '2rem', display: 'inline-block' }}>
           ← Back to Home
         </Link>
         
-        <article className="bg-white rounded-lg shadow-lg overflow-hidden">
+        <article style={{ background: 'white', borderRadius: '0.5rem', boxShadow: '0 4px 6px rgba(0, 0, 0, 0.1)', overflow: 'hidden' }}>
           {blog.featuredImage && (
             <img
               src={blog.featuredImage}
               alt={blog.title}
-              className="w-full h-64 md:h-96 object-cover"
+              style={{ width: '100%', height: '300px', objectFit: 'cover' }}
             />
           )}
           
-          <div className="p-8">
-            <div className="flex items-center mb-4">
-              <span className="bg-blue-100 text-blue-800 text-sm font-medium px-3 py-1 rounded">
+          <div style={{ padding: '2rem' }}>
+            <div className="blog-meta" style={{ marginBottom: '1rem' }}>
+              <span className="category-tag">
                 {blog.category?.name}
               </span>
-              <span className="text-gray-500 ml-auto">
+              <span className="blog-date">
                 {formatDate(blog.publishDate)}
               </span>
             </div>
             
-            <h1 className="text-3xl md:text-4xl font-bold text-gray-900 mb-6">
+            <h1 style={{ fontSize: '2.5rem', fontWeight: 'bold', color: '#1f2937', marginBottom: '1.5rem', lineHeight: '1.2' }}>
               {blog.title}
             </h1>
             
             <div 
-              className="prose prose-lg max-w-none"
+              style={{ fontSize: '1.125rem', lineHeight: '1.7', color: '#374151' }}
               dangerouslySetInnerHTML={{ __html: blog.description }}
             />
           </div>

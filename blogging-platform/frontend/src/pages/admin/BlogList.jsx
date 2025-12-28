@@ -45,8 +45,8 @@ const BlogList = () => {
   if (loading) {
     return (
       <AdminLayout>
-        <div className="flex items-center justify-center h-64">
-          <div className="text-lg">Loading...</div>
+        <div className="loading">
+          <div>Loading...</div>
         </div>
       </AdminLayout>
     );
@@ -55,70 +55,61 @@ const BlogList = () => {
   return (
     <AdminLayout>
       <div>
-        <div className="flex justify-between items-center mb-8">
-          <h1 className="text-3xl font-bold text-gray-900">All Blogs</h1>
-          <Link
-            to="/admin/blogs/new"
-            className="bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700"
-          >
+        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '2rem' }}>
+          <h1 style={{ fontSize: '2rem', fontWeight: 'bold' }}>All Blogs</h1>
+          <Link to="/admin/blogs/new" className="btn btn-primary">
             Add New Blog
           </Link>
         </div>
 
-        <div className="bg-white shadow rounded-lg overflow-hidden">
-          <table className="min-w-full divide-y divide-gray-200">
-            <thead className="bg-gray-50">
+        <div className="table">
+          <table>
+            <thead>
               <tr>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                  Title
-                </th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                  Category
-                </th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                  Publish Date
-                </th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                  Actions
-                </th>
+                <th>Title</th>
+                <th>Category</th>
+                <th>Publish Date</th>
+                <th>Actions</th>
               </tr>
             </thead>
-            <tbody className="bg-white divide-y divide-gray-200">
+            <tbody>
               {blogs.length === 0 ? (
                 <tr>
-                  <td colSpan="4" className="px-6 py-4 text-center text-gray-500">
+                  <td colSpan="4" style={{ textAlign: 'center', color: '#6b7280' }}>
                     No blogs found.
                   </td>
                 </tr>
               ) : (
                 blogs.map((blog) => (
                   <tr key={blog._id}>
-                    <td className="px-6 py-4 whitespace-nowrap">
-                      <div className="text-sm font-medium text-gray-900">
+                    <td>
+                      <div style={{ fontWeight: '500', marginBottom: '0.25rem' }}>
                         {blog.title}
                       </div>
-                      <div className="text-sm text-gray-500">
+                      <div style={{ fontSize: '0.875rem', color: '#6b7280' }}>
                         {blog.description.replace(/<[^>]*>/g, '').substring(0, 100)}...
                       </div>
                     </td>
-                    <td className="px-6 py-4 whitespace-nowrap">
-                      <span className="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-blue-100 text-blue-800">
+                    <td>
+                      <span className="category-tag">
                         {blog.category?.name}
                       </span>
                     </td>
-                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                    <td style={{ color: '#6b7280' }}>
                       {formatDate(blog.publishDate)}
                     </td>
-                    <td className="px-6 py-4 whitespace-nowrap text-sm font-medium">
+                    <td>
                       <Link
                         to={`/admin/blogs/${blog._id}/edit`}
-                        className="text-indigo-600 hover:text-indigo-900 mr-4"
+                        className="btn btn-primary"
+                        style={{ fontSize: '0.875rem', padding: '0.5rem 1rem', marginRight: '0.5rem' }}
                       >
                         Edit
                       </Link>
                       <button
                         onClick={() => handleDelete(blog._id)}
-                        className="text-red-600 hover:text-red-900"
+                        className="btn btn-danger"
+                        style={{ fontSize: '0.875rem', padding: '0.5rem 1rem' }}
                       >
                         Delete
                       </button>

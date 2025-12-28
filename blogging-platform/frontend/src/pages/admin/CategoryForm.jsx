@@ -64,20 +64,20 @@ const CategoryForm = () => {
   return (
     <AdminLayout>
       <div>
-        <h1 className="text-3xl font-bold text-gray-900 mb-8">
+        <h1 style={{ fontSize: '2rem', fontWeight: 'bold', marginBottom: '2rem' }}>
           {isEdit ? 'Edit Category' : 'Add New Category'}
         </h1>
 
-        <div className="bg-white shadow rounded-lg p-6 max-w-md">
+        <div style={{ background: 'white', padding: '2rem', borderRadius: '0.5rem', boxShadow: '0 1px 3px rgba(0, 0, 0, 0.1)', maxWidth: '500px' }}>
           {error && (
-            <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded mb-4">
+            <div className="alert alert-error">
               {error}
             </div>
           )}
 
-          <form onSubmit={handleSubmit} className="space-y-6">
-            <div>
-              <label htmlFor="name" className="block text-sm font-medium text-gray-700">
+          <form onSubmit={handleSubmit}>
+            <div className="form-group">
+              <label htmlFor="name" className="form-label">
                 Category Name *
               </label>
               <input
@@ -85,25 +85,25 @@ const CategoryForm = () => {
                 id="name"
                 name="name"
                 required
-                className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
+                className="form-input"
                 value={formData.name}
                 onChange={handleChange}
                 placeholder="Enter category name"
               />
             </div>
 
-            <div className="flex justify-end space-x-4">
+            <div style={{ display: 'flex', justifyContent: 'flex-end', gap: '1rem' }}>
               <button
                 type="button"
                 onClick={() => navigate('/admin/categories')}
-                className="px-4 py-2 border border-gray-300 rounded-md text-gray-700 hover:bg-gray-50"
+                className="btn btn-secondary"
               >
                 Cancel
               </button>
               <button
                 type="submit"
                 disabled={loading}
-                className="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 disabled:opacity-50"
+                className="btn btn-primary"
               >
                 {loading ? 'Saving...' : (isEdit ? 'Update Category' : 'Create Category')}
               </button>

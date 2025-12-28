@@ -38,8 +38,8 @@ const AdminDashboard = () => {
   if (loading) {
     return (
       <AdminLayout>
-        <div className="flex items-center justify-center h-64">
-          <div className="text-lg">Loading...</div>
+        <div className="loading">
+          <div>Loading...</div>
         </div>
       </AdminLayout>
     );
@@ -48,48 +48,41 @@ const AdminDashboard = () => {
   return (
     <AdminLayout>
       <div>
-        <h1 className="text-3xl font-bold text-gray-900 mb-8">Dashboard</h1>
+        <h1 style={{ fontSize: '2rem', fontWeight: 'bold', marginBottom: '2rem' }}>Dashboard</h1>
         
         {/* Stats Cards */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
-          <div className="bg-white rounded-lg shadow p-6">
-            <div className="flex items-center">
-              <div className="flex-1">
-                <p className="text-sm font-medium text-gray-600">Total Blogs</p>
-                <p className="text-3xl font-bold text-gray-900">{stats.totalBlogs}</p>
-              </div>
-            </div>
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(250px, 1fr))', gap: '1.5rem', marginBottom: '2rem' }}>
+          <div style={{ background: 'white', padding: '1.5rem', borderRadius: '0.5rem', boxShadow: '0 1px 3px rgba(0, 0, 0, 0.1)' }}>
+            <p style={{ fontSize: '0.875rem', fontWeight: '500', color: '#6b7280', marginBottom: '0.5rem' }}>Total Blogs</p>
+            <p style={{ fontSize: '2rem', fontWeight: 'bold', color: '#1f2937' }}>{stats.totalBlogs}</p>
           </div>
           
-          <div className="bg-white rounded-lg shadow p-6">
-            <div className="flex items-center">
-              <div className="flex-1">
-                <p className="text-sm font-medium text-gray-600">Total Categories</p>
-                <p className="text-3xl font-bold text-gray-900">{stats.totalCategories}</p>
-              </div>
-            </div>
+          <div style={{ background: 'white', padding: '1.5rem', borderRadius: '0.5rem', boxShadow: '0 1px 3px rgba(0, 0, 0, 0.1)' }}>
+            <p style={{ fontSize: '0.875rem', fontWeight: '500', color: '#6b7280', marginBottom: '0.5rem' }}>Total Categories</p>
+            <p style={{ fontSize: '2rem', fontWeight: 'bold', color: '#1f2937' }}>{stats.totalCategories}</p>
           </div>
         </div>
 
         {/* Recent Blogs */}
-        <div className="bg-white rounded-lg shadow">
-          <div className="px-6 py-4 border-b border-gray-200">
-            <h2 className="text-lg font-medium text-gray-900">Recent Blogs</h2>
+        <div style={{ background: 'white', borderRadius: '0.5rem', boxShadow: '0 1px 3px rgba(0, 0, 0, 0.1)' }}>
+          <div style={{ padding: '1.5rem', borderBottom: '1px solid #e5e7eb' }}>
+            <h2 style={{ fontSize: '1.25rem', fontWeight: '500' }}>Recent Blogs</h2>
           </div>
-          <div className="p-6">
+          <div style={{ padding: '1.5rem' }}>
             {recentBlogs.length === 0 ? (
-              <p className="text-gray-500">No blogs found.</p>
+              <p style={{ color: '#6b7280' }}>No blogs found.</p>
             ) : (
-              <div className="space-y-4">
+              <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
                 {recentBlogs.map((blog) => (
-                  <div key={blog._id} className="flex items-center justify-between p-4 border rounded-lg">
+                  <div key={blog._id} style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '1rem', border: '1px solid #e5e7eb', borderRadius: '0.375rem' }}>
                     <div>
-                      <h3 className="font-medium text-gray-900">{blog.title}</h3>
-                      <p className="text-sm text-gray-500">{blog.category?.name}</p>
+                      <h3 style={{ fontWeight: '500', marginBottom: '0.25rem' }}>{blog.title}</h3>
+                      <p style={{ fontSize: '0.875rem', color: '#6b7280' }}>{blog.category?.name}</p>
                     </div>
                     <Link
                       to={`/admin/blogs/${blog._id}/edit`}
-                      className="text-blue-600 hover:text-blue-800 text-sm font-medium"
+                      className="btn btn-primary"
+                      style={{ fontSize: '0.875rem', padding: '0.5rem 1rem' }}
                     >
                       Edit
                     </Link>

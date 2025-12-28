@@ -85,20 +85,20 @@ const BlogForm = () => {
   return (
     <AdminLayout>
       <div>
-        <h1 className="text-3xl font-bold text-gray-900 mb-8">
+        <h1 style={{ fontSize: '2rem', fontWeight: 'bold', marginBottom: '2rem' }}>
           {isEdit ? 'Edit Blog' : 'Add New Blog'}
         </h1>
 
-        <div className="bg-white shadow rounded-lg p-6">
+        <div style={{ background: 'white', padding: '2rem', borderRadius: '0.5rem', boxShadow: '0 1px 3px rgba(0, 0, 0, 0.1)' }}>
           {error && (
-            <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded mb-4">
+            <div className="alert alert-error">
               {error}
             </div>
           )}
 
-          <form onSubmit={handleSubmit} className="space-y-6">
-            <div>
-              <label htmlFor="title" className="block text-sm font-medium text-gray-700">
+          <form onSubmit={handleSubmit}>
+            <div className="form-group">
+              <label htmlFor="title" className="form-label">
                 Title *
               </label>
               <input
@@ -106,21 +106,21 @@ const BlogForm = () => {
                 id="title"
                 name="title"
                 required
-                className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
+                className="form-input"
                 value={formData.title}
                 onChange={handleChange}
               />
             </div>
 
-            <div>
-              <label htmlFor="category" className="block text-sm font-medium text-gray-700">
+            <div className="form-group">
+              <label htmlFor="category" className="form-label">
                 Category *
               </label>
               <select
                 id="category"
                 name="category"
                 required
-                className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
+                className="form-select"
                 value={formData.category}
                 onChange={handleChange}
               >
@@ -133,78 +133,77 @@ const BlogForm = () => {
               </select>
             </div>
 
-            <div>
-              <label htmlFor="description" className="block text-sm font-medium text-gray-700">
+            <div className="form-group">
+              <label htmlFor="description" className="form-label">
                 Description *
               </label>
               <textarea
                 id="description"
                 name="description"
-                rows={10}
                 required
-                className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
+                className="form-textarea"
                 value={formData.description}
                 onChange={handleChange}
                 placeholder="Write your blog content here..."
               />
             </div>
 
-            <div>
-              <label htmlFor="publishDate" className="block text-sm font-medium text-gray-700">
+            <div className="form-group">
+              <label htmlFor="publishDate" className="form-label">
                 Publish Date
               </label>
               <input
                 type="date"
                 id="publishDate"
                 name="publishDate"
-                className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
+                className="form-input"
                 value={formData.publishDate}
                 onChange={handleChange}
               />
             </div>
 
-            <div>
-              <label htmlFor="thumbnailImage" className="block text-sm font-medium text-gray-700">
+            <div className="form-group">
+              <label htmlFor="thumbnailImage" className="form-label">
                 Thumbnail Image URL
               </label>
               <input
                 type="url"
                 id="thumbnailImage"
                 name="thumbnailImage"
-                className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
+                className="form-input"
                 value={formData.thumbnailImage}
                 onChange={handleChange}
                 placeholder="https://example.com/image.jpg"
               />
             </div>
 
-            <div>
-              <label htmlFor="featuredImage" className="block text-sm font-medium text-gray-700">
+            <div className="form-group">
+              <label htmlFor="featuredImage" className="form-label">
                 Featured Image URL
               </label>
               <input
                 type="url"
                 id="featuredImage"
                 name="featuredImage"
-                className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
+                className="form-input"
                 value={formData.featuredImage}
                 onChange={handleChange}
                 placeholder="https://example.com/image.jpg"
               />
             </div>
 
-            <div className="flex justify-end space-x-4">
+            <div style={{ display: 'flex', justifyContent: 'flex-end', gap: '1rem' }}>
               <button
                 type="button"
                 onClick={() => navigate('/admin/blogs')}
-                className="px-4 py-2 border border-gray-300 rounded-md text-gray-700 hover:bg-gray-50"
+                className="btn btn-secondary"
               >
                 Cancel
               </button>
               <button
                 type="submit"
                 disabled={loading}
-                className="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 disabled:opacity-50"
+                className="btn btn-primary"
               >
                 {loading ? 'Saving...' : (isEdit ? 'Update Blog' : 'Create Blog')}
               </button>

@@ -50,8 +50,8 @@ const Home = () => {
     return (
       <div>
         <Header />
-        <div className="min-h-screen flex items-center justify-center">
-          <div className="text-lg">Loading...</div>
+        <div className="loading">
+          <div>Loading...</div>
         </div>
       </div>
     );
@@ -61,79 +61,61 @@ const Home = () => {
     <div>
       <Header />
       
-      
-     
-      
-      <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+      <main className="container">
         {/* Hero Section */}
-        <div className="text-center mb-12">
-          <h1 className="text-4xl font-bold text-gray-900 mb-4">
-            Welcome to Our Blog
-          </h1>
-          <p className="text-xl text-gray-600 mb-8">
-            Discover the latest articles and insights
-          </p>
+        <div className="hero">
+          <h1>Welcome to BlogSpace</h1>
+          <p>Your creative writing hub - discover amazing stories and insights</p>
           
           {/* Search */}
-          <form onSubmit={handleSearch} className="max-w-md mx-auto">
-            <div className="flex">
-              <input
-                type="text"
-                placeholder="Search blogs..."
-                className="flex-1 px-4 py-2 border border-gray-300 rounded-l-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-                value={searchQuery}
-                onChange={(e) => setSearchQuery(e.target.value)}
-              />
-              <button
-                type="submit"
-                className="px-6 py-2 bg-blue-600 text-white rounded-r-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500"
-              >
-                Search
-              </button>
-            </div>
+          <form onSubmit={handleSearch} className="search-form">
+            <input
+              type="text"
+              placeholder="Search blogs..."
+              className="search-input"
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+            />
+            <button type="submit" className="search-button">
+              Search
+            </button>
           </form>
         </div>
 
         {/* Blog Grid */}
-        <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-3">
+        <div className="blog-grid">
           {blogs.length === 0 ? (
-            <div className="col-span-full text-center py-12">
-              <p className="text-gray-500 text-lg">No blogs found.</p>
+            <div style={{ gridColumn: '1 / -1', textAlign: 'center', padding: '3rem' }}>
+              <p style={{ color: '#6b7280', fontSize: '1.125rem' }}>No blogs found.</p>
             </div>
           ) : (
             blogs.map((blog) => (
-              <article key={blog._id} className="bg-white rounded-lg shadow-md overflow-hidden">
+              <article key={blog._id} className="blog-card">
                 {blog.thumbnailImage && (
                   <img
                     src={blog.thumbnailImage}
                     alt={blog.title}
-                    className="w-full h-48 object-cover"
+                    className="blog-image"
                   />
                 )}
-                <div className="p-6">
-                  <div className="flex items-center mb-2">
-                    <span className="bg-blue-100 text-blue-800 text-xs font-medium px-2.5 py-0.5 rounded">
+                <div className="blog-content">
+                  <div className="blog-meta">
+                    <span className="category-tag">
                       {blog.category?.name}
                     </span>
-                    <span className="text-gray-500 text-sm ml-auto">
+                    <span className="blog-date">
                       {formatDate(blog.publishDate)}
                     </span>
                   </div>
-                  <h2 className="text-xl font-bold text-gray-900 mb-3">
-                    <Link 
-                      to={`/${blog.slug}`}
-                      className="hover:text-blue-600 transition-colors"
-                    >
+                  <h2 className="blog-title">
+                    <Link to={`/${blog.slug}`}>
                       {blog.title}
                     </Link>
                   </h2>
-                  <p className="text-gray-600 mb-4 line-clamp-3">
+                  <p className="blog-excerpt">
                     {blog.description.replace(/<[^>]*>/g, '').substring(0, 150)}...
                   </p>
-                  <Link
-                    to={`/${blog.slug}`}
-                    className="text-blue-600 hover:text-blue-800 font-medium"
-                  >
+                  <Link to={`/${blog.slug}`} className="read-more">
                     Read More →
                   </Link>
                 </div>
