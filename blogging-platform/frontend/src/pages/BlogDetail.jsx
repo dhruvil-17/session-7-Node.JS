@@ -18,7 +18,7 @@ const BlogDetail = () => {
       const response = await blogAPI.getBlogBySlug(slug);
       setBlog(response.data);
     } catch (error) {
-      setError('Blog not found');
+      setError(`Blog not found : ${error.message}`);
     } finally {
       setLoading(false);
     }
